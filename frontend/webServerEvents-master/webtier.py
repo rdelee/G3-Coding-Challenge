@@ -5,7 +5,7 @@ import requests
 import time
 
 app = Flask(__name__)
-#app.register_blueprint(sse, url_prefix='/stream')
+app.register_blueprint(sse, url_prefix='/stream')
 CORS(app)
 
 @app.route('/deals')
@@ -14,9 +14,11 @@ def forwardStream():
     def eventStream():
             for line in r.iter_lines( chunk_size=1):
                 if line:
+                    # emit data as SSE
                     yield 'data:{}\n\n'.format(line.decode())
     return Response(eventStream(), mimetype="text/event-stream")
 
+@app.route('/client/testservice')
 @app.route('/client/testservice')
 def client_to_server():
     r = requests.get('http://localhost:8080/testservice')
