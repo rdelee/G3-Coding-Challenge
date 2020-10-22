@@ -3,10 +3,18 @@ from flask_sse import sse
 from flask_cors import CORS
 import requests
 import time
+import json
 
-# use dp.calculateNextPrice(object, direction) to get price
-# and dp.getDealsFromJson(jsonObject) to get pythonDict version of JSON
 import 'dealParser.py' as dp
+
+
+#input : Normalized json containing one deal
+#output : python object with same structure 
+#access as following object_name.Deal.price, object_name.Instrument.instrument_id , object_name.Counter_party.name
+def json_to_py(deal_json):
+    return deal_PyObj = dp.convert_deals_to_pyObj(deal_jason) 
+
+
 
 app = Flask(__name__)
 app.register_blueprint(sse, url_prefix='/stream')
@@ -45,3 +53,4 @@ def bootapp():
 
 if __name__ == '__main__':
      bootapp()
+
