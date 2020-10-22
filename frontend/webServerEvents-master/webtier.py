@@ -36,9 +36,18 @@ def readFILE():
 def forwardStream():
     r = requests.get('http://localhost:8080/streamTest', stream=True)
     def eventStream():
+
+            current_directory = os.getcwd()
+            final_directory = os.path.join(current_directory, str(time.time()))
+            if not os.path.exists(final_directory):
+                os.makedirs(final_directory) 
+            
             for line in r.iter_lines( chunk_size=1):
                 if line:
                     # emit data as SSE
+                    current_deal_json =json.loads(line.decode())
+                    with open(os.path.join(final_directory, str(time.time())),'w') as jsonFile:
+                        json.dump(json_obj, jsonFile)
                     yield 'data:{}\n\n'.format(line.decode())
     return Response(eventStream(), mimetype="text/event-stream")
 
