@@ -9,7 +9,7 @@ from RandomDealData import *
 app = Flask(__name__)
 CORS(app)
 global batching_frequency
-batching_frequency = 60 #seconds
+batching_frequency = 5 #seconds
 
 def index():
     return "Data Generator is running..."
@@ -30,10 +30,9 @@ def stream():
             #nonlocal instrList
             deal = rdd.createRandomData(instrList) + "\n"
             #deal = json.dumps(deal)
-            yield deal
+            #yield deal
             #Add deal data to deal_list
             deal_list.append(deal)
-
             send_json(deal_list,start_time)
             outfile = open('data.json', 'w')
             json.dump(deal_list, outfile)
@@ -67,13 +66,14 @@ def batch(start_time):
     else:
         return False
 
+
 def send_json(deal_list,start_time):
     if batch(start_time):
         #Insert normalize function here
+        #yield deal_list
         #Send deal_list json file to webtier
         #print('in send_json')
         deal_list = []
         return True
     else:
         return False 
-

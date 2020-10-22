@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, render_template, jsonify
 from flask_cors import CORS
 import webServiceStream
 from RandomDealData import *
@@ -30,9 +30,17 @@ def index():
 def testservice():
     return webServiceStream.testservice()
 
+with open('./data.json','r') as myfile:
+    data = myfile.read()
+
+@app.route('/jsontest')
+def streamjson():
+    return jsonify(data)
+
 @app.route('/streamTest')
 def stream():
     return webServiceStream.stream()
+
 
 @app.route('/streamTest/sse')
 def sse_stream():
