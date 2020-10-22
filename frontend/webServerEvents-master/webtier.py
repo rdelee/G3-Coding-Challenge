@@ -3,6 +3,7 @@ from flask_sse import sse
 from flask_cors import CORS
 import requests
 import time
+import dealparser
 
 app = Flask(__name__)
 app.register_blueprint(sse, url_prefix='/stream')
