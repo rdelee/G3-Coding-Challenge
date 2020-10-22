@@ -20,7 +20,7 @@ def testservice():
     return Response( deal, status=200, mimetype='application/json')
 
 def stream():
-    rdd = RandomDealData()
+    #rdd = RandomDealData()
     instrList = rdd.createInstrumentList()
     deal_list = []
     def eventStream():
@@ -40,7 +40,7 @@ def stream():
 
 def sse_stream():
     theHeaders = {"X-Accel-Buffering": "False"}
-    rdd = RandomDealData()
+    #rdd = RandomDealData()
     instrList = rdd.createInstrumentList()
     def eventStream():
         while True:
@@ -65,11 +65,9 @@ def batch():
         return False
 
 def send_json(deal_list):
-    outfile = open('data.json', 'w')
     if batch():
         #Insert normalize function here
         #Send deal_list json file to webtier
-        json.dump(deal_list, outfile)
         #print('in send_json')
         deal_list = []
         return True
