@@ -1,4 +1,6 @@
 
+import json 
+
 #Nexsted classes to refelct the normalized data
 #deals_data is a python object that carries all the info about a single deal
 
