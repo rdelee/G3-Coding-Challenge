@@ -11,7 +11,7 @@ function App() {
   return (
    <div className="App">
      <Header />
-     <Container>
+     <Container className="pane">
         <Stream />
      </Container>
    </div>
