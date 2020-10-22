@@ -4,7 +4,7 @@ from flask_cors import CORS
 import requests
 import time
 import json
-
+import os
 #import 'dealParser.py' as dp
 
 
@@ -47,7 +47,7 @@ def forwardStream():
                     # emit data as SSE
                     current_deal_json =json.loads(line.decode())
                     with open(os.path.join(final_directory, str(time.time())),'w') as jsonFile:
-                        json.dump(json_obj, jsonFile)
+                        json.dump(current_deal_json, jsonFile)
                     yield 'data:{}\n\n'.format(line.decode())
     return Response(eventStream(), mimetype="text/event-stream")
 
