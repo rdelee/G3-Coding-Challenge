@@ -8,8 +8,8 @@ from RandomDealData import *
 
 app = Flask(__name__)
 CORS(app)
+global batching_frequency
 batching_frequency = 60 #seconds
-start_time = time.time()
 
 def index():
     return "Data Generator is running..."
@@ -20,9 +20,11 @@ def testservice():
     return Response( deal, status=200, mimetype='application/json')
 
 def stream():
-    #rdd = RandomDealData()
+    rdd = RandomDealData()
     instrList = rdd.createInstrumentList()
     deal_list = []
+    start_time = time.time()
+
     def eventStream():
         while True:
             #nonlocal instrList
@@ -32,7 +34,7 @@ def stream():
             #Add deal data to deal_list
             deal_list.append(deal)
 
-            send_json(deal_list)
+            send_json(deal_list,start_time)
             outfile = open('data.json', 'w')
             json.dump(deal_list, outfile)
 
@@ -40,7 +42,7 @@ def stream():
 
 def sse_stream():
     theHeaders = {"X-Accel-Buffering": "False"}
-    #rdd = RandomDealData()
+    rdd = RandomDealData()
     instrList = rdd.createInstrumentList()
     def eventStream():
         while True:
@@ -57,15 +59,16 @@ def get_time():
     s = time.ctime(time.time())
     return s
 
-def batch():
-    if time.time - start_time >= batching_frequency:
-        start_time = time.time
+def batch(start_time):
+    t = time.time()
+    if float(t) - start_time >= batching_frequency:
+        start_time = float(t)
         return True
     else:
         return False
 
-def send_json(deal_list):
-    if batch():
+def send_json(deal_list,start_time):
+    if batch(start_time):
         #Insert normalize function here
         #Send deal_list json file to webtier
         #print('in send_json')
