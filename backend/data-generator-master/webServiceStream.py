@@ -60,8 +60,9 @@ def get_time():
     return s
 
 def batch(start_time):
-    if float(time.time) - start_time >= batching_frequency:
-        start_time = float(time.time)
+    t = time.time()
+    if float(t) - start_time >= batching_frequency:
+        start_time = float(t)
         return True
     else:
         return False
