@@ -3,6 +3,7 @@ from flask_cors import CORS
 import webServiceStream
 from RandomDealData import *
 import mysql.connector
+from mysql.connector import errorcode
 
 try:
     cnx = mysql.connector.connect(host='localhost', database='mysql-server',user='root',password='')
