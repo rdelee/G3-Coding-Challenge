@@ -23,10 +23,14 @@ def stream():
     rdd = RandomDealData()
     instrList = rdd.createInstrumentList()
     deal_list = []
+    outfile = open('data.json', 'w+')
     def eventStream():
         while True:
             #nonlocal instrList
-            yield rdd.createRandomData(instrList) + "\n"
+            deal = rdd.createRandomData(instrList) + "\n"
+            json.dump(deal, outfile)
+            deal_list.append(deal)
+            yield deal
             #Add deal data to deal_list
             send_json(deal_list)
     return Response(eventStream(), status=200, mimetype="text/event-stream")
