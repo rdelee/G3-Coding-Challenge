@@ -27,7 +27,7 @@ def readFILE():
     def eventStream():
             for line in r.iter_lines( chunk_size=1):
                 if line:
-                    # emit data as SSE
+                    # send normalized data to dealParser
                     #json_to_py(line)
                     yield line
     return Response(eventStream(), mimetype="text/json")
