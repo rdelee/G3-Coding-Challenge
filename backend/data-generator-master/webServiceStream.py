@@ -8,6 +8,8 @@ from RandomDealData import *
 
 app = Flask(__name__)
 CORS(app)
+global batching_frequency
+global start_time
 batching_frequency = 60 #seconds
 start_time = time.time()
 
