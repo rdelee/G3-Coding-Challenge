@@ -5,20 +5,32 @@ import requests
 import time
 import json
 
-import 'dealParser.py' as dp
+#import 'dealParser.py' as dp
 
 
 #input : Normalized json containing one deal
 #output : python object with same structure 
 #access as following object_name.Deal.price, object_name.Instrument.instrument_id , object_name.Counter_party.name
 def json_to_py(deal_json):
-    return deal_PyObj = dp.convert_deals_to_pyObj(deal_jason) 
+    return
+    #return deal_PyObj = dp.convert_deals_to_pyObj(deal_jason)
 
 
 
 app = Flask(__name__)
 app.register_blueprint(sse, url_prefix='/stream')
 CORS(app)
+
+@app.route('/file')
+def readFILE():
+    r = requests.get('http://localhost:8080/jsontest')
+    def eventStream():
+            for line in r.iter_lines( chunk_size=1):
+                if line:
+                    # emit data as SSE
+                    #json_to_py(line)
+                    yield line
+    return Response(eventStream(), mimetype="text/json")
 
 @app.route('/deals')
 def forwardStream():
