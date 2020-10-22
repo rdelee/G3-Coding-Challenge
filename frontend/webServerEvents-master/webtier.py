@@ -4,8 +4,9 @@ from flask_cors import CORS
 import requests
 import time
 
-# use dp.calculateNextPrice(object, direction) to get price and dp.getDealsFromJason(jsonObject) to get pythonDict version of JSON
-import dealparser as dp   
+# use dp.calculateNextPrice(object, direction) to get price
+# and dp.getDealsFromJson(jsonObject) to get pythonDict version of JSON
+import 'dealParser.py' as dp
 
 app = Flask(__name__)
 app.register_blueprint(sse, url_prefix='/stream')
