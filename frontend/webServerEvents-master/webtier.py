@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, jsonify
 from flask_sse import sse
 from flask_cors import CORS
 import requests
@@ -77,6 +77,30 @@ def client_to_server():
 def index():
     return "webtier service points are running..."
 
+@app.route('/get_test_data')
+def get_deals_json():
+    list_deals = []
+    deal_1 = {
+        "instrumentName": "Eclipse",
+        "cpty": "Lewis",
+        "price": "7743.939118689354",
+        "type": "S",
+        "quantity": "562",
+        "time": "26-sep-2020 (14:40:17.152282)"
+    }
+    deal_2 = {
+        "instrumentName": "Celestial",
+        "cpty": "Nidia",
+        "price": "73.86634",
+        "type": "B",
+        "quantity": "42",
+        "time": "26-sep-2020 (12:35:17.152282)"
+    }
+
+    list_deals.append(deal_1)
+    list_deals.append(deal_2)
+
+    return jsonify(list_deals)
 
 def get_message():
     """this could be any function that blocks until data is ready"""

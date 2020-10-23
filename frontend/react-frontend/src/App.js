@@ -4,8 +4,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import './App.css';
 import Header from './component/common/header';
-import Stream from './component/view_data/data_stream_display'
+import Stream from './component/view_data/data_stream_display';
 import Login from './Login';
+import Table from './component/view_data/table_view_page';
 
 function App() {
 
@@ -24,6 +25,9 @@ function App() {
         </Route>
         <Route path="">
          <Login />
+        </Route>
+        <Route path="/table">
+          <Table />    
         </Route>
       </Switch>
     </Router>
