@@ -24,12 +24,35 @@
 
 import pymysql
 
-connection= pymysql.connect(user = 'root', passwd='123456abc!', 
-                            host='mysql-server',
-                            database = 'db_grad_cs_1917')
+con= pymysql.connect(user = 'root', passwd='123456abc!', 
+                            host='localhost',
+                            database = 'db_grad_cs_1917',
+                            charset = 'utf8mb4',
+                            cursorclass = pymysql.cursors.DictCursor)
 
-cursor = connection.cursor()
-query = ("MYQUERY")
-cursor.execute(query)
-for item in cursor:
-    print(item)
+try:
+
+    with con.cursor() as cur:
+
+        cur.execute('SELECT * FROM deal')
+
+        rows = cur.fetchall()
+
+        print(rows)
+        # for row in rows:
+        #     print(f'{row[0]} {row[1]} {row[2]}')
+
+finally:
+
+    con.close()
+
+# cur = cxn.cursor()
+# rows = cur.fetchall()
+
+# for row in rows:
+#     print(row['id'], row['name'])
+# cursor = cxn.cursor()
+# query = ("examplequery")
+# cursor.execute(query)
+# for item in cursor:
+#     print(item)
