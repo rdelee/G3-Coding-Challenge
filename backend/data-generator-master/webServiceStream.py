@@ -108,7 +108,7 @@ def norm_data():
         with open('output.json', 'w') as output_file:
             for output_item in output_items:
                 output_file.write(json.dumps(output_item) + '\n')
-    return output_items
+    #return output_items
 '''
     def eventStream():
         while True:
@@ -136,3 +136,8 @@ def send_file():
     with open('./output.json', 'r+') as myfile:
         data = myfile.read()
     return data
+
+def bootServices():
+    stream()
+    norm_data()
+    send_file()

@@ -50,7 +50,7 @@ def sse_stream():
 def bootapp():
     # global rdd 
     # rdd = RandomDealData()
-    # webServiceStream.bootServices()
+    webServiceStream.bootServices()
     app.run(debug=True, port=8080, threaded=True, host=('0.0.0.0'))
 
 
