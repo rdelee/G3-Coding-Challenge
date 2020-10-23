@@ -74,11 +74,12 @@ def random_str(n):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
 def norm_data():
+    output_items = []
     with open('data.json', 'r') as f:
         json_contents = f.read()
         contents = json.loads(json_contents)
         items = [json.loads(json_item) for json_item in contents]
-        output_items = []
+        
         for item in items:
             output_item = {
                 'instrument': {
