@@ -31,12 +31,10 @@ def index():
 def testservice():
     return webServiceStream.testservice()
 
-#with open('./data.json','r+') as myfile:
-#        data = myfile.read()
-
 @app.route('/jsontest')
 def streamjson():
-    return webServiceStream.send_file()
+    return webServiceStream.norm_data()
+    #return webServiceStream.send_file()
     #return jsonify(data)
 
 @app.route('/streamTest')
