@@ -34,16 +34,18 @@ def stream():
             deal = rdd.createRandomData(instrList) + "\n"
             #Add deal data to deal_list
             deal_list.append(deal)
-            send_json(deal_list,start_time)
+            #send_json(deal_list,start_time)
             outfile = open('data.json', 'w')
             json.dump(deal_list, outfile)
             yield deal
-
+    #norm_data()
     return Response(eventStream(), status=200, mimetype="text/event-stream")
 
 def sse_stream():
     theHeaders = {"X-Accel-Buffering": "False"}
     rdd = RandomDealData()
+    # replace rdd with normalized data
+    #nd = norm_data()
     instrList = rdd.createInstrumentList()
     def eventStream():
         while True:
@@ -99,9 +101,18 @@ def norm_data():
             output_items.append(output_item)
 
         with open('output.json', 'w') as output_file:
-            for output_item in output_items:
-                output_file.write(json.dumps(output_item) + '\n')
-norm_data()
+            for output_item in output_items:    def eventStream():
+            output_file.write(json.dumps(output_item) + '\n')
+    def eventStream():
+        while True:
+            #nonlocal instrList
+            yield '{}\n\n'.format(output_items)
+    resp = Response(eventStream(), status=200, mimetype="text/event-stream")
+    resp.headers["X-Accel-Buffering"] = "False"
+    return resp
+
+
+#norm_data()
 
 def send_json(deal_list,start_time):
     if batch(start_time):
