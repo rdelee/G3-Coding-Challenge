@@ -50,11 +50,11 @@ def sse_stream():
     # replace rdd with normalized data
     #nd = norm_data()
     instrList = rdd.createInstrumentList()
-    norm_data()
+    #y = norm_data()
     def eventStream():
         while True:
             #nonlocal instrList
-            yield 'data:{}\n\n'.format(output_items)
+            yield 'data:{}\n\n'.format(rdd.createRandomData(instrList))
     resp = Response(eventStream(), status=200, mimetype="text/event-stream")
     resp.headers["X-Accel-Buffering"] = "False"
     return resp
@@ -108,6 +108,7 @@ def norm_data():
         with open('output.json', 'w') as output_file:
             for output_item in output_items:
                 output_file.write(json.dumps(output_item) + '\n')
+    return output_items
 '''
     def eventStream():
         while True:
