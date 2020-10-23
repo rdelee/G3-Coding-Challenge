@@ -36,7 +36,7 @@ def testservice():
 
 @app.route('/jsontest')
 def streamjson():
-    return webServiceStream.send_file();
+    return webServiceStream.send_file()
     #return jsonify(data)
 
 @app.route('/streamTest')

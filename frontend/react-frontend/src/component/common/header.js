@@ -12,7 +12,8 @@ function Header() {
                 </button> */}
                 {/* <div class='collapse navbar-collapse' id='navbarNavAltMarkup'> */}
                     <div class='navbar-nav'>
-                        <a class='nav-item nav-link active' href='#'>Table <span class='sr-only'>(current)</span></a>
+                        <a class='nav-item nav-link active' href='/table'>Table <span class='sr-only'>(current)</span></a>
+                        <a class='nav-item nav-link active' href='/datastream'>Graph </a>
                         {/* <a class='nav-item nav-link' href='#'>Graph</a> */}
                     </div>
                 {/* </div> */}
