@@ -1,11 +1,14 @@
-from flask import Flask, render_template, Response
+from flask import Flask, render_template, Response, jsonify
 from flask_sse import sse
 from flask_cors import CORS
 import requests
 import time
 import json
-
+import os
 #import 'dealParser.py' as dp
+
+DATA_FLAG = "JSON" # look in @app.route for info on this
+#DATA_FLAG = "PYTHON"
 
 
 #input : Normalized json containing one deal
@@ -25,10 +28,17 @@ CORS(app)
 def readFILE():
     r = requests.get('http://localhost:8080/jsontest')
     def eventStream():
+            
             for line in r.iter_lines( chunk_size=1):
                 if line:
-                    # emit data as SSE
+                    # send normalized data to dealParser
                     #json_to_py(line)
+                    current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
+
+                    #if(DATA_FLAG == "PYHTON"):
+                      #  json_to_py(current_deal_json)
+
+
                     yield line
     return Response(eventStream(), mimetype="text/json")
 
@@ -36,6 +46,7 @@ def readFILE():
 def forwardStream():
     r = requests.get('http://localhost:8080/streamTest', stream=True)
     def eventStream():
+
             for line in r.iter_lines( chunk_size=1):
                 if line:
                     # emit data as SSE
@@ -53,6 +64,34 @@ def client_to_server():
 def index():
     return "webtier service points are running..."
 
+@app.route('/endpos')
+def calc_pos():
+    dealer = 'Jupiter'
+    #Attempt to access specific parts of stream to get deal Price
+    # Could not get that info
+    #could use 8090/file if doing in front-end
+    r = requests.get('http://localhost:8080/jsontest')
+    def eventStream():
+            for line in r.iter_lines( chunk_size=1):
+                if line:
+                    # emit data as SSE
+                    l = json.loads(line)
+                    yield '{}\n\n'.format(l)
+    return Response(eventStream(), mimetype="text/event-stream")
+
+@app.route('/get_test_data')
+def get_deals_json():
+    list_deals = []
+
+    r = requests.get('http://localhost:8080/jsontest')
+    def eventStream():
+        for line in r.iter_lines( chunk_size=1):
+                if line:
+                    current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
+                    list_deals.append(current_deal_json)
+                    yield line
+
+    return jsonify(list_deals)
 
 def get_message():
     """this could be any function that blocks until data is ready"""

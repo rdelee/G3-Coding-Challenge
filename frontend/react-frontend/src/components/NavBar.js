@@ -16,6 +16,7 @@ const NavBar = () => {
       <ul>
         <li><a href="/">Home</a></li>
         {isAuthenticated && (<a href="/datastream">Data Stream</a>)}
+        {isAuthenticated && (<a href="/table">Table</a>)}
         {!isAuthenticated && (<Button onClick={() => loginWithRedirect()}>Log in</Button>)}
         {isAuthenticated && (<Button onClick={() => logoutWithRedirect()}>Log out</Button>)}
         {isAuthenticated && (<h2>Welcome {user.name}!</h2>)}

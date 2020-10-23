@@ -1,15 +1,21 @@
 import time
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from flask_cors import CORS
 import numpy, random
 from datetime import datetime, timedelta
 import json
 from RandomDealData import *
 
+import random
+import string
+
 app = Flask(__name__)
 CORS(app)
 global batching_frequency
 batching_frequency = 5 #seconds
+
+
+output_items = []
 
 def index():
     return "Data Generator is running..."
@@ -29,20 +35,22 @@ def stream():
         while True:
             #nonlocal instrList
             deal = rdd.createRandomData(instrList) + "\n"
-            #deal = json.dumps(deal)
-            #yield deal
             #Add deal data to deal_list
             deal_list.append(deal)
-            send_json(deal_list,start_time)
+            #send_json(deal_list,start_time)
             outfile = open('data.json', 'w')
             json.dump(deal_list, outfile)
-
+            yield deal
+    #norm_data()
     return Response(eventStream(), status=200, mimetype="text/event-stream")
 
 def sse_stream():
     theHeaders = {"X-Accel-Buffering": "False"}
     rdd = RandomDealData()
+    # replace rdd with normalized data
+    #nd = norm_data()
     instrList = rdd.createInstrumentList()
+    #y = norm_data()
     def eventStream():
         while True:
             #nonlocal instrList
@@ -66,14 +74,70 @@ def batch(start_time):
     else:
         return False
 
+def random_str(n):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
+
+def norm_data():
+    
+    with open('data.json', 'r') as f:
+        json_contents = f.read()
+        contents = json.loads(json_contents)
+        items = [json.loads(json_item) for json_item in contents]
+        
+        for item in items:
+            output_item = {
+                'instrument': {
+                    'Instrument_Name': item['instrumentName'],
+                    'instrument_id': random_str(8)
+                },
+                'deal' : {
+                    'Deal_Id': random_str(8),
+                    'Price' : item['price'],
+                    'Type': item['type'],
+                    'Quantity': item['quantity'],
+                    'Time': item['time']
+                },
+                'counter_party' : {
+                    'counterparty_name': item['cpty'],
+                    'counterparty_id': random_str(8)
+                }
+            }
+            # print(output_item)
+            output_items.append(output_item)
+
+        with open('output.json', 'w') as output_file:
+            for output_item in output_items:
+                output_file.write(json.dumps(output_item) + '\n')
+    #return output_items
+'''
+    def eventStream():
+        while True:
+            #nonlocal instrList
+           # yield '{}  '.format(jsonify(output_items))
+    resp = Response(eventStream(), status=200, mimetype="text/jsontest")
+    resp.headers["X-Accel-Buffering"] = "False"
+    return resp
+
+'''
+#norm_data()
 
 def send_json(deal_list,start_time):
     if batch(start_time):
-        #Insert normalize function here
+              
         #yield deal_list
         #Send deal_list json file to webtier
         #print('in send_json')
         deal_list = []
         return True
     else:
-        return False 
+        return False
+
+def send_file():
+    with open('./output.json', 'r+') as myfile:
+        data = myfile.read()
+    return data
+
+def bootServices():
+    stream()
+    norm_data()
+    send_file()

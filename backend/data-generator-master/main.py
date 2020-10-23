@@ -4,6 +4,7 @@ import webServiceStream
 from RandomDealData import *
 import mysql.connector
 from mysql.connector import errorcode
+import requests
 
 try:
     cnx = mysql.connector.connect(host='localhost', database='mysql-server',user='root',password='')
@@ -30,12 +31,11 @@ def index():
 def testservice():
     return webServiceStream.testservice()
 
-with open('./data.json','r') as myfile:
-    data = myfile.read()
-
 @app.route('/jsontest')
 def streamjson():
-    return jsonify(data)
+    #return webServiceStream.norm_data()
+    return webServiceStream.send_file()
+    #return jsonify(data)
 
 @app.route('/streamTest')
 def stream():
@@ -50,7 +50,7 @@ def sse_stream():
 def bootapp():
     # global rdd 
     # rdd = RandomDealData()
-    # webServiceStream.bootServices()
+    webServiceStream.bootServices()
     app.run(debug=True, port=8080, threaded=True, host=('0.0.0.0'))
 
 
