@@ -89,19 +89,19 @@ def get_deals_json():
     '''
     deal_1 = {
         'instrument': {
-            'Instrument_Name': item['instrumentName'],
-            'instrument_id': random_str(8)
+            'Instrument_Name': 'Eclipse',
+            'instrument_id': '654'
         },
         'deal' : {
-            'Deal_Id': random_str(8),
-            'Price' : item['price'],
-            'Type': item['type'],
-            'Quantity': item['quantity'],
-            'Time': item['time']
+            'Deal_Id': '456',
+            'Price' : '45',
+            'Type': 'S',
+            'Quantity': '3',
+            'Time': '26-sep-2020 (12:35:17.152282)'
         },
         'counter_party' : {
-        'counterparty_name': item['cpty'],
-        'counterparty_id': random_str(8)
+        'counterparty_name': "Lewis",
+        'counterparty_id': "07"
         }
     }
     # deal_1 = {
@@ -122,8 +122,13 @@ def get_deals_json():
     # }
 
     list_deals.append(deal_1)
+<<<<<<< Updated upstream
     list_deals.append(deal_2)
     '''
+=======
+    # list_deals.append(deal_2)
+
+>>>>>>> Stashed changes
     return jsonify(list_deals)
 
 def get_message():
