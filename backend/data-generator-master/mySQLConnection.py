@@ -1,22 +1,35 @@
-import mysql.connector
-from mysql.connector import errorcode
-#import requests
+# import mysql.connector
+# from mysql.connector import Error
 
-try:
-    cnx = mysql.connector.connect(host='mysql-server' ,user='root',password='', database = "db_grad_cs_1917")
+# try:
+#     connection = mysql.connector.connect(host='localhost',
+#                                          database='db_grad_cs_1917',
+#                                          user='root',
+#                                          password='')
+#     if connection.is_connected():
+#         db_Info = connection.get_server_info()
+#         print("Connected to MySQL Server version ", db_Info)
+#         cursor = connection.cursor()
+#         cursor.execute("select database();")
+#         record = cursor.fetchone()
+#         print("You're connected to database: ", record)
 
-except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-        print("Something is wrong with your username or password")
-    elif err.errno == errorcode.ER_BAD_DB_ERROR:
-        print("Database does not exist")
-    else:
-        print(err)
-else:
-    cnx.close()
+# except Error as e:
+#     print("Error while connecting to MySQL", e)
+# finally:
+#     if (connection.is_connected()):
+#         cursor.close()
+#         connection.close()
+#         print("MySQL connection is closed")
 
-mycursor = cnx.cursor()
-mycursor.execute("SHOW TABLES")
+import pymysql
 
-for x in mycursor:
-    print(x)
+connection= pymysql.connect(user = 'root', passwd='123456abc!', 
+                            host='mysql-server',
+                            database = 'db_grad_cs_1917')
+
+cursor = connection.cursor()
+query = ("MYQUERY")
+cursor.execute(query)
+for item in cursor:
+    print(item)
