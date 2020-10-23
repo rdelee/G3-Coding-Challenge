@@ -1,5 +1,5 @@
 import time
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from flask_cors import CORS
 import numpy, random
 from datetime import datetime, timedelta
