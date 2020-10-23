@@ -87,7 +87,6 @@ def get_deals_json():
                 if line:
                     current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
                     list_deals.append(current_deal_json)
-     
                     yield line
     '''
     deal_1 = {
