@@ -101,8 +101,9 @@ def norm_data():
             output_items.append(output_item)
 
         with open('output.json', 'w') as output_file:
-            for output_item in output_items:    def eventStream():
-            output_file.write(json.dumps(output_item) + '\n')
+            for output_item in output_items:
+                output_file.write(json.dumps(output_item) + '\n')
+
     def eventStream():
         while True:
             #nonlocal instrList
