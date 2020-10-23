@@ -58,8 +58,6 @@ def forwardStream():
     r = requests.get('http://localhost:8080/streamTest', stream=True)
     def eventStream():
 
-
-            
             for line in r.iter_lines( chunk_size=1):
                 if line:
                     # emit data as SSE
@@ -81,7 +79,7 @@ def index():
 def get_deals_json():
     list_deals = []
 
-    r = requests.get('http://localhost:8090/file')
+    r = requests.get('http://localhost:8080/jsontest')
     def eventStream():
         for line in r.iter_lines( chunk_size=1):
                 if line:
