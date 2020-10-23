@@ -125,10 +125,10 @@ def get_deals_json():
 <<<<<<< Updated upstream
     list_deals.append(deal_2)
     '''
-=======
+
     # list_deals.append(deal_2)
 
->>>>>>> Stashed changes
+
     return jsonify(list_deals)
 
 def get_message():

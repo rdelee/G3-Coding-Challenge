@@ -1,5 +1,5 @@
 import time
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from flask_cors import CORS
 import numpy, random
 from datetime import datetime, timedelta
@@ -108,8 +108,8 @@ def norm_data():
     def eventStream():
         while True:
             #nonlocal instrList
-            yield '{}\n\n'.format(output_items)
-    resp = Response(eventStream(), status=200, mimetype="text/event-stream")
+            yield '{}\n\n'.format(jsonify(output_items))
+    resp = Response(eventStream(), status=200, mimetype="text/jsontest")
     resp.headers["X-Accel-Buffering"] = "False"
     return resp
 
