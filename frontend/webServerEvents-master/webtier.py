@@ -4,8 +4,11 @@ from flask_cors import CORS
 import requests
 import time
 import json
-
+import os
 #import 'dealParser.py' as dp
+
+DATA_FLAG = "JSON" # look in @app.route for info on this
+#DATA_FLAG = "PYTHON"
 
 
 #input : Normalized json containing one deal
@@ -25,10 +28,28 @@ CORS(app)
 def readFILE():
     r = requests.get('http://localhost:8080/jsontest')
     def eventStream():
+            
+            if(DATA_FLAG == "JSON"):
+                current_directory = os.getcwd()
+                final_directory = os.path.join(current_directory, str(time.time()))
+                if not os.path.exists(final_directory):
+                    os.makedirs(final_directory) 
+
+            
             for line in r.iter_lines( chunk_size=1):
                 if line:
                     # send normalized data to dealParser
                     #json_to_py(line)
+                    current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
+                    
+                    if(DATA_FLAG == "JSON"):
+                        with open(os.path.join(final_directory, str(time.time())),'w') as jsonFile:
+                            json.dump(current_deal_json, jsonFile)
+
+                    #if(DATA_FLAG == "PYHTON"):
+                      #  json_to_py(current_deal_json)
+
+
                     yield line
     return Response(eventStream(), mimetype="text/json")
 
@@ -36,6 +57,9 @@ def readFILE():
 def forwardStream():
     r = requests.get('http://localhost:8080/streamTest', stream=True)
     def eventStream():
+
+
+            
             for line in r.iter_lines( chunk_size=1):
                 if line:
                     # emit data as SSE
