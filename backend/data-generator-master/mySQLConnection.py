@@ -24,7 +24,7 @@
 
 import pymysql
 
-con= pymysql.connect(user = 'root', passwd='123456abc!', 
+con= pymysql.connect(user = 'root', passwd='ppp', 
                             host='localhost',
                             database = 'db_grad_cs_1917',
                             charset = 'utf8mb4',
@@ -38,9 +38,12 @@ try:
 
         rows = cur.fetchall()
 
-        print(rows)
-        # for row in rows:
-        #     print(f'{row[0]} {row[1]} {row[2]}')
+        # print(rows)
+        for row in rows:
+            print(row['deal_id'])
+
+        INSERT INTO instruments (name, id) VALUES (?, ?)
+        .query/execution(query, output_item['instrument']['name'], ...['id'])
 
 finally:
 
