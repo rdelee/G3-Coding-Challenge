@@ -108,7 +108,7 @@ def norm_data():
     def eventStream():
         while True:
             #nonlocal instrList
-            yield '{}\n\n'.format(output_items)
+            yield '{}\n\n'.format(jsonify(output_items))
     resp = Response(eventStream(), status=200, mimetype="text/jsontest")
     resp.headers["X-Accel-Buffering"] = "False"
     return resp
