@@ -64,6 +64,21 @@ def client_to_server():
 def index():
     return "webtier service points are running..."
 
+@app.route('/endpos')
+def calc_pos():
+    dealer = 'Jupiter'
+    #Attempt to access specific parts of stream to get deal Price
+    # Could not get that info
+    #could use 8090/file if doing in front-end
+    r = requests.get('http://localhost:8080/jsontest')
+    def eventStream():
+            for line in r.iter_lines( chunk_size=1):
+                if line:
+                    # emit data as SSE
+                    l = json.loads(line)
+                    yield '{}\n\n'.format(l)
+    return Response(eventStream(), mimetype="text/event-stream")
+
 @app.route('/get_test_data')
 def get_deals_json():
     list_deals = []
