@@ -6,6 +6,9 @@ from datetime import datetime, timedelta
 import json
 from RandomDealData import *
 
+import random
+import string
+
 app = Flask(__name__)
 CORS(app)
 global batching_frequency
@@ -65,10 +68,44 @@ def batch(start_time):
     else:
         return False
 
+def random_str(n):
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
+
+def norm_data():
+    with open('data.json', 'r') as f:
+        json_contents = f.read()
+        contents = json.loads(json_contents)
+        items = [json.loads(json_item) for json_item in contents]
+        output_items = []
+        for item in items:
+            output_item = {
+                'instrument': {
+                    'Instrument_Name': item['instrumentName'],
+                    'instrument_id': random_str(8)
+                },
+                'deal' : {
+                    'Deal_Id': random_str(8),
+                    'Price' : item['price'],
+                    'Type': item['type'],
+                    'Quantity': item['quantity'],
+                    'Time': item['time']
+                },
+                'counter_party' : {
+                    'counterparty_name': item['cpty'],
+                    'counterparty_id': random_str(8)
+                }
+            }
+            # print(output_item)
+            output_items.append(output_item)
+
+        with open('output.json', 'w') as output_file:
+            for output_item in output_items:
+                output_file.write(json.dumps(output_item) + '\n')
+norm_data()
 
 def send_json(deal_list,start_time):
     if batch(start_time):
-        #Insert normalize function here
+              
         #yield deal_list
         #Send deal_list json file to webtier
         #print('in send_json')
