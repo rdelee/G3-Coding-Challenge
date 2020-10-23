@@ -80,6 +80,16 @@ def index():
 @app.route('/get_test_data')
 def get_deals_json():
     list_deals = []
+
+    r = requests.get('http://localhost:8090/file')
+    def eventStream():
+        for line in r.iter_lines( chunk_size=1):
+                if line:
+                    current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
+                    list_deals.append(current_deal_json)
+     
+                    yield line
+    '''
     deal_1 = {
         'instrument': {
             'Instrument_Name': item['instrumentName'],
@@ -116,7 +126,7 @@ def get_deals_json():
 
     list_deals.append(deal_1)
     list_deals.append(deal_2)
-
+    '''
     return jsonify(list_deals)
 
 def get_message():
