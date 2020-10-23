@@ -81,21 +81,38 @@ def index():
 def get_deals_json():
     list_deals = []
     deal_1 = {
-        "instrumentName": "Eclipse",
-        "cpty": "Lewis",
-        "price": "7743.939118689354",
-        "type": "S",
-        "quantity": "562",
-        "time": "26-sep-2020 (14:40:17.152282)"
+        'instrument': {
+            'Instrument_Name': item['instrumentName'],
+            'instrument_id': random_str(8)
+        },
+        'deal' : {
+            'Deal_Id': random_str(8),
+            'Price' : item['price'],
+            'Type': item['type'],
+            'Quantity': item['quantity'],
+            'Time': item['time']
+        },
+        'counter_party' : {
+        'counterparty_name': item['cpty'],
+        'counterparty_id': random_str(8)
+        }
     }
-    deal_2 = {
-        "instrumentName": "Celestial",
-        "cpty": "Nidia",
-        "price": "73.86634",
-        "type": "B",
-        "quantity": "42",
-        "time": "26-sep-2020 (12:35:17.152282)"
-    }
+    # deal_1 = {
+    #     "instrumentName": "Eclipse",
+    #     "cpty": "Lewis",
+    #     "price": "7743.939118689354",
+    #     "type": "S",
+    #     "quantity": "562",
+    #     "time": "26-sep-2020 (14:40:17.152282)"
+    # }
+    # deal_2 = {
+    #     "instrumentName": "Celestial",
+    #     "cpty": "Nidia",
+    #     "price": "73.86634",
+    #     "type": "B",
+    #     "quantity": "42",
+    #     "time": "26-sep-2020 (12:35:17.152282)"
+    # }
 
     list_deals.append(deal_1)
     list_deals.append(deal_2)
