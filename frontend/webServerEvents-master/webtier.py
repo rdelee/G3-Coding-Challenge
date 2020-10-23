@@ -29,22 +29,11 @@ def readFILE():
     r = requests.get('http://localhost:8080/jsontest')
     def eventStream():
             
-            if(DATA_FLAG == "JSON"):
-                current_directory = os.getcwd()
-                final_directory = os.path.join(current_directory, str(time.time()))
-                if not os.path.exists(final_directory):
-                    os.makedirs(final_directory) 
-
-            
             for line in r.iter_lines( chunk_size=1):
                 if line:
                     # send normalized data to dealParser
                     #json_to_py(line)
                     current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
-                    
-                    if(DATA_FLAG == "JSON"):
-                        with open(os.path.join(final_directory, str(time.time())),'w') as jsonFile:
-                            json.dump(current_deal_json, jsonFile)
 
                     #if(DATA_FLAG == "PYHTON"):
                       #  json_to_py(current_deal_json)

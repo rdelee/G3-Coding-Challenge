@@ -14,6 +14,9 @@ CORS(app)
 global batching_frequency
 batching_frequency = 5 #seconds
 
+
+output_items = []
+
 def index():
     return "Data Generator is running..."
 
@@ -47,10 +50,11 @@ def sse_stream():
     # replace rdd with normalized data
     #nd = norm_data()
     instrList = rdd.createInstrumentList()
+    norm_data()
     def eventStream():
         while True:
             #nonlocal instrList
-            yield 'data:{}\n\n'.format(rdd.createRandomData(instrList))
+            yield 'data:{}\n\n'.format(output_items)
     resp = Response(eventStream(), status=200, mimetype="text/event-stream")
     resp.headers["X-Accel-Buffering"] = "False"
     return resp
@@ -74,7 +78,7 @@ def random_str(n):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=n))
 
 def norm_data():
-    output_items = []
+    
     with open('data.json', 'r') as f:
         json_contents = f.read()
         contents = json.loads(json_contents)
@@ -104,16 +108,16 @@ def norm_data():
         with open('output.json', 'w') as output_file:
             for output_item in output_items:
                 output_file.write(json.dumps(output_item) + '\n')
-
+'''
     def eventStream():
         while True:
             #nonlocal instrList
-            yield '{}\n\n'.format(jsonify(output_items))
+           # yield '{}  '.format(jsonify(output_items))
     resp = Response(eventStream(), status=200, mimetype="text/jsontest")
     resp.headers["X-Accel-Buffering"] = "False"
     return resp
 
-
+'''
 #norm_data()
 
 def send_json(deal_list,start_time):
