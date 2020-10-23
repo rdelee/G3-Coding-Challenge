@@ -90,48 +90,6 @@ def get_deals_json():
                     current_deal_json =json.loads(line.decode()) #convert incoming stream to json object
                     list_deals.append(current_deal_json)
                     yield line
-    '''
-    deal_1 = {
-        'instrument': {
-            'Instrument_Name': 'Eclipse',
-            'instrument_id': '654'
-        },
-        'deal' : {
-            'Deal_Id': '456',
-            'Price' : '45',
-            'Type': 'S',
-            'Quantity': '3',
-            'Time': '26-sep-2020 (12:35:17.152282)'
-        },
-        'counter_party' : {
-        'counterparty_name': "Lewis",
-        'counterparty_id': "07"
-        }
-    }
-    # deal_1 = {
-    #     "instrumentName": "Eclipse",
-    #     "cpty": "Lewis",
-    #     "price": "7743.939118689354",
-    #     "type": "S",
-    #     "quantity": "562",
-    #     "time": "26-sep-2020 (14:40:17.152282)"
-    # }
-    # deal_2 = {
-    #     "instrumentName": "Celestial",
-    #     "cpty": "Nidia",
-    #     "price": "73.86634",
-    #     "type": "B",
-    #     "quantity": "42",
-    #     "time": "26-sep-2020 (12:35:17.152282)"
-    # }
-
-    list_deals.append(deal_1)
-<<<<<<< Updated upstream
-    list_deals.append(deal_2)
-    '''
-
-    # list_deals.append(deal_2)
-
 
     return jsonify(list_deals)
 
