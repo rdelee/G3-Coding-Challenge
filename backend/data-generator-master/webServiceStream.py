@@ -115,6 +115,6 @@ def send_json(deal_list,start_time):
         return False
 
 def send_file():
-    with open('./data.json', 'r+') as myfile:
+    with open('./output.json', 'r+') as myfile:
         data = myfile.read()
     return data
